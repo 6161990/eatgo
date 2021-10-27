@@ -1,8 +1,11 @@
 package kr.co.yeoeulsim.eatgo.interfaces;
 
+import kr.co.yeoeulsim.eatgo.domain.RestaurantRepository;
+import kr.co.yeoeulsim.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
@@ -17,6 +20,9 @@ class RestaurantControllerTest {
 
     @Autowired
     MockMvc mvc;
+
+    @SpyBean(RestaurantRepositoryImpl.class) //컨트롤러에 저장소에 대한 객체를 주입할 수 있다. 구현체를 명시 해주어야함
+    private RestaurantRepository restaurantRepository;
 
     @Test
     public void list() throws Exception{
