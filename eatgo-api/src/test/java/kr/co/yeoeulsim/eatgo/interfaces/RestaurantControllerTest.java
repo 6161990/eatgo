@@ -1,5 +1,7 @@
 package kr.co.yeoeulsim.eatgo.interfaces;
 
+import kr.co.yeoeulsim.eatgo.domain.MenuItemRepository;
+import kr.co.yeoeulsim.eatgo.domain.MenuItemRepositoryImpl;
 import kr.co.yeoeulsim.eatgo.domain.RestaurantRepository;
 import kr.co.yeoeulsim.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,9 @@ class RestaurantControllerTest {
     @SpyBean(RestaurantRepositoryImpl.class) //컨트롤러에 저장소에 대한 객체를 주입할 수 있다. 구현체를 명시 해주어야함
     private RestaurantRepository restaurantRepository;
 
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
+
     @Test
     public void list() throws Exception{
         mvc.perform(get("/restaurants"))
@@ -46,6 +51,9 @@ class RestaurantControllerTest {
                 ))
                 .andExpect(content().string(
                         containsString("\"name\":\"Bob zip\"")
+                ))
+                .andExpect(content().string(
+                        containsString("Kimchi")
                 ));
 
         mvc.perform(get("/restaurants/2020"))
@@ -55,6 +63,7 @@ class RestaurantControllerTest {
                 .andExpect(content().string(
                         containsString("\"name\":\"Cyber Food\"")
                 ));
+
     }
 
 }
