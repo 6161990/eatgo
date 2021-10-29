@@ -39,7 +39,6 @@ public class Restaurant {
         menuItems.add(menuItem);
     }
 
-
     public void setMenuItem(List<MenuItem> menuItems) {
         for(MenuItem menuItem : menuItems){
             addMenuItem(menuItem);
