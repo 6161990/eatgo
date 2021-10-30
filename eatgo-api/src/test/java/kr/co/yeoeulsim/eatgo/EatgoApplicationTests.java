@@ -22,11 +22,9 @@ class EatgoApplicationTests {
 
     @Test
     public void information() {
-        //given
-        Restaurant restaurant = new Restaurant(1004L,"Bob zip","seoul");
-        //when
 
-        //then
+        Restaurant restaurant = new Restaurant(1004L,"Bob zip","seoul");
+
         Assertions.assertEquals(restaurant.getInformation(), "Bob zip in seoul");
     }
 

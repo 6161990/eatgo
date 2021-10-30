@@ -7,16 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@SpringBootTest
 //@ExtendWith(SpringExtension.class)
@@ -30,8 +34,6 @@ class RestaurantControllerTest {
     @SpyBean(RestaurantService.class)
     private RestaurantService restaurantService;
 
-    // BUT 근데 이 방식은 테스트 하고자 하는 객체 외의 것들도 모두 의존해줘야함. mock객체가 필요하다.
-    // MOCK 객체 라이브러리 = mokito , spring에서 쓸 수 있음. 이런 라이브러리를 가져오기 때문에 테스트를 하는 것이 좀 더 오래걸림 (로딩)
     @SpyBean(RestaurantRepositoryImpl.class)
     private RestaurantRepository restaurantRepository;
 
@@ -88,6 +90,20 @@ class RestaurantControllerTest {
                         containsString("\"name\":\"Cyber Food\"")
                 ));
 
+    }
+
+    @Test
+    public void create() throws Exception {
+       // Restaurant restaurant = new Restaurant(1234L, "BeBe", "seoul");  -> 얘를 할 때마다 만들기가 쫌 번잡 any() 이용하자
+
+        mvc.perform(post("/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"bebe\", \"address\":\"busan\"}")) // 예상
+                .andExpect(status().isCreated())
+                .andExpect(header().string("location", "/restaurants/1234"))
+                .andExpect(content().string("{}"));
+
+        verify(restaurantService).addRestaurant(any());
     }
 
 }
