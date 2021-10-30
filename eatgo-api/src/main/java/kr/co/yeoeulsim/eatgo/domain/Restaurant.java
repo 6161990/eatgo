@@ -1,12 +1,15 @@
 package kr.co.yeoeulsim.eatgo.domain;
 
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 public class Restaurant {
-    private final Long id;
-    private final String name;
-    private final String address;
+    private Long id;
+    private String name;
+    private String address;
     private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
     public Restaurant(Long id, String name, String address){
