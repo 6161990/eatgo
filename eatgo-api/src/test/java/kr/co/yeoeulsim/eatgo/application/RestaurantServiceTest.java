@@ -10,6 +10,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 class RestaurantServiceTest {
@@ -74,6 +76,18 @@ class RestaurantServiceTest {
 
         Restaurant restaurant = restaurants.get(0);
         Assertions.assertEquals(restaurant.getId(), 1004L);
+    }
+
+    @Test
+    public void addRestaurant(){
+        Restaurant restaurant = new Restaurant("BeBe", "busan");
+        Restaurant saved = new Restaurant(1234L, "BeBe", "busan");
+
+        given(restaurantRepository.save(any())).willReturn(saved);
+
+        Restaurant createRestaurant = restaurantService.addRestaurant(restaurant);
+
+        Assertions.assertEquals(createRestaurant.getId(), 1234L);
     }
 
 }
