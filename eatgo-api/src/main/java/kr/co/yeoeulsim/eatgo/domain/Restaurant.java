@@ -18,6 +18,15 @@ public class Restaurant {
         this.address = address;
     }
 
+    public Restaurant(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
