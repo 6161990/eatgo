@@ -26,6 +26,7 @@ public class Restaurant {
     }
 
     public Restaurant(String name, String address) {
+        this.id = 1234L;
         this.name = name;
         this.address = address;
     }
@@ -62,5 +63,10 @@ public class Restaurant {
         for(MenuItem menuItem : menuItems){
             addMenuItem(menuItem);
         }
+    }
+
+    public void updateInformation(String name, String address) {
+        this.name = name;
+        this.address = address;
     }
 }

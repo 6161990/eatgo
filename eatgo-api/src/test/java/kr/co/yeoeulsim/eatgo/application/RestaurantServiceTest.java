@@ -91,4 +91,17 @@ class RestaurantServiceTest {
         Assertions.assertEquals(createRestaurant.getId(), 1234L);
     }
 
+    @Test
+    public void updateRestaurant(){
+        Restaurant restaurant = new Restaurant(1234L, "BeBe", "busan");
+
+        given(restaurantRepository.findById(1234L))
+                .willReturn(Optional.of(restaurant));
+
+        restaurantService.updateRestaurant(1234L, "Sool zip", "Busan");
+
+        Assertions.assertEquals(restaurant.getName(), "Sool zip");
+        Assertions.assertEquals(restaurant.getAddress(), "Busan");
+    }
+
 }
