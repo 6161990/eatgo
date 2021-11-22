@@ -42,7 +42,9 @@ class RestaurantServiceTest {
 
     private void mockMenuItemRepository() {
         List<MenuItem> menuItems = new ArrayList<>();
-        MenuItem menuItem = new MenuItem("Kimchi");
+        MenuItem menuItem = MenuItem.builder()
+                .name("KimChi")
+                .build();
         menuItems.add(menuItem);
 
 
@@ -72,7 +74,7 @@ class RestaurantServiceTest {
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
 
-        Assertions.assertEquals(menuItem.getName(), "Kimchi");
+        Assertions.assertEquals(menuItem.getName(), "KimChi");
 
     }
 
@@ -86,14 +88,16 @@ class RestaurantServiceTest {
 
     @Test
     public void addRestaurant(){
-        Restaurant restaurant = new Restaurant("BeBe", "busan");
-        Restaurant saved = Restaurant.builder()
-                .id(1234L)
-                .name("BeBe")
-                .address("busan")
-                .build();
+        given(restaurantRepository.save(any())).will(invocation -> {
+            Restaurant restaurant = invocation.getArgument(0);
+            restaurant.setId(1234L);
+            return restaurant;
+        });
 
-        given(restaurantRepository.save(any())).willReturn(saved);
+        Restaurant restaurant = Restaurant.builder()
+                .name("BeBe")
+                .address("Busan")
+                .build();
 
         Restaurant createRestaurant = restaurantService.addRestaurant(restaurant);
 
@@ -105,7 +109,7 @@ class RestaurantServiceTest {
         Restaurant restaurant = Restaurant.builder()
                 .id(1234L)
                 .name("BeBe")
-                .address("busan")
+                .address("Busan")
                 .build();
 
         given(restaurantRepository.findById(1234L))
