@@ -51,7 +51,12 @@ class RestaurantServiceTest {
 
     private void mockRestaurantRepository() {
         List<Restaurant> restaurants = new ArrayList<>();
-        Restaurant restaurant = new Restaurant(1004L, "Bob zip","seoul");
+        Restaurant restaurant = Restaurant.builder()
+                .id(1004L)
+                .name("Bob zip")
+                .address("Seoul")
+                .build();
+
         restaurants.add(restaurant);
 
         given(restaurantRepository.findAll()).willReturn(restaurants);
@@ -82,13 +87,34 @@ class RestaurantServiceTest {
     @Test
     public void addRestaurant(){
         Restaurant restaurant = new Restaurant("BeBe", "busan");
-        Restaurant saved = new Restaurant(1234L, "BeBe", "busan");
+        Restaurant saved = Restaurant.builder()
+                .id(1234L)
+                .name("BeBe")
+                .address("busan")
+                .build();
 
         given(restaurantRepository.save(any())).willReturn(saved);
 
         Restaurant createRestaurant = restaurantService.addRestaurant(restaurant);
 
         Assertions.assertEquals(createRestaurant.getId(), 1234L);
+    }
+
+    @Test
+    public void updateRestaurant(){
+        Restaurant restaurant = Restaurant.builder()
+                .id(1234L)
+                .name("BeBe")
+                .address("busan")
+                .build();
+
+        given(restaurantRepository.findById(1234L))
+                .willReturn(Optional.of(restaurant));
+
+        restaurantService.updateRestaurant(1234L, "Sool zip", "Busan");
+
+        Assertions.assertEquals(restaurant.getName(), "Sool zip");
+        Assertions.assertEquals(restaurant.getAddress(), "Busan");
     }
 
 }

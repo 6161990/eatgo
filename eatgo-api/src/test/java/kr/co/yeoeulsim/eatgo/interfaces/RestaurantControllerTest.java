@@ -12,14 +12,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@SpringBootTest
@@ -64,7 +64,7 @@ class RestaurantControllerTest {
     @Test
     public void detail() throws Exception {
         Restaurant restaurant1 = new Restaurant(1004L, "JOKER House", "seoul");
-        restaurant1.addMenuItem(new MenuItem("Kimchi"));
+        restaurant1.setMenuItem(Arrays.asList(new MenuItem("Kimchi")));
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
 
         Restaurant restaurant2 = new Restaurant(2020L, "Cyber Food", "seoul");
@@ -101,9 +101,20 @@ class RestaurantControllerTest {
                 .content("{\"name\":\"bebe\", \"address\":\"busan\"}")) // 예상
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", "/restaurants/1234"))
-                .andExpect(content().string("{}"));
+                .andExpect(content().string(""));
 
         verify(restaurantService).addRestaurant(any());
+    }
+
+    @Test
+    public void update() throws Exception {
+        mvc.perform(patch("/restaurants/1004")
+               .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"JOKER Bar\", \"address\":\"Busan\"}"))
+
+                .andExpect(status().isOk());
+
+        verify(restaurantService).updateRestaurant(1004L, "JOKER Bar", "Busan");
     }
 
 }
