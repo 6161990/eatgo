@@ -21,7 +21,7 @@ class EatgoApplicationTests {
 
         Assertions.assertEquals(restaurant.getId(), 1004L);
         Assertions.assertEquals(restaurant.getName(), "Bob zip");
-        Assertions.assertEquals(restaurant.getAddress(), "seoul");
+        Assertions.assertEquals(restaurant.getAddress(), "Seoul");
     }
 
     @Test
@@ -32,7 +32,7 @@ class EatgoApplicationTests {
                 .address("Seoul")
                 .build();
 
-        Assertions.assertEquals(restaurant.getInformation(), "Bob zip in seoul");
+        Assertions.assertEquals(restaurant.getInformation(), "Bob zip in Seoul");
     }
 
 }
