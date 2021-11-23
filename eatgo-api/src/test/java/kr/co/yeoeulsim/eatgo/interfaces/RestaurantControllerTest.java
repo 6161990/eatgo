@@ -110,7 +110,7 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
+    public void createWithValidData() throws Exception {
        // Restaurant restaurant = new Restaurant(1234L, "BeBe", "seoul");  -> 얘를 할 때마다 만들기가 쫌 번잡 any() 이용하자
 
         given(restaurantService.addRestaurant(any())).will(invocation -> {
@@ -133,7 +133,15 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void createWithInvalidData() throws Exception {
+        mvc.perform(post("/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"\", \"address\":\"\"}")) // 예상
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void updateValidData() throws Exception {
         mvc.perform(patch("/restaurants/1004")
                .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"JOKER Bar\", \"address\":\"Busan\"}"))
@@ -143,4 +151,19 @@ class RestaurantControllerTest {
         verify(restaurantService).updateRestaurant(1004L, "JOKER Bar", "Busan");
     }
 
+    @Test
+    public void updateInvalidData() throws Exception {
+        mvc.perform(patch("/restaurants/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"\", \"address\":\"\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void updateWithoutName() throws Exception {
+        mvc.perform(patch("/restaurants/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"\", \"address\":\"Busan\"}"))
+                .andExpect(status().isBadRequest());
+    }
 }
