@@ -30,6 +30,7 @@ public class RestaurantController {
     @GetMapping("/restaurants/{id}")
     public Restaurant detail(@PathVariable("id")Long id){
         Restaurant restaurant = restaurantService.getRestaurant(id); // 기본 정보 + 메뉴 정보
+        // try catch 로 묶는 방법 보다는 @controllerAdvice
 
         return restaurant;
     }

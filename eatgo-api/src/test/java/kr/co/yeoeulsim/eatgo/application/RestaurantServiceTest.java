@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.annotation.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ class RestaurantServiceTest {
 
 
     @Test
-    public void getRestaurant() {
+    public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
         Assertions.assertEquals(restaurant.getId(), 1004L);
@@ -76,6 +77,14 @@ class RestaurantServiceTest {
 
         Assertions.assertEquals(menuItem.getName(), "KimChi");
 
+    }
+
+    @Test
+    public void getRestaurantWithNotExisted(){
+        Throwable exception = Assertions.assertThrows(RestaurantNotFoundException.class, ()->{
+            throw new RestaurantNotFoundException(404L);
+        });
+        Assertions.assertEquals(exception.getMessage(), "Could not Found Restaurant Id404");
     }
 
     @Test
