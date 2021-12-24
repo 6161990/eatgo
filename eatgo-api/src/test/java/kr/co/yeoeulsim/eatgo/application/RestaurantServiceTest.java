@@ -1,18 +1,17 @@
 package kr.co.yeoeulsim.eatgo.application;
 
 import kr.co.yeoeulsim.eatgo.domain.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.context.annotation.Role;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -71,20 +70,20 @@ class RestaurantServiceTest {
     public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
-        Assertions.assertEquals(restaurant.getId(), 1004L);
+        assertEquals(restaurant.getId(), 1004L);
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
 
-        Assertions.assertEquals(menuItem.getName(), "KimChi");
+        assertEquals(menuItem.getName(), "KimChi");
 
     }
 
     @Test
     public void getRestaurantWithNotExisted(){
-        Throwable exception = Assertions.assertThrows(RestaurantNotFoundException.class, ()->{
+        Throwable exception = assertThrows(RestaurantNotFoundException.class, ()->{
             throw new RestaurantNotFoundException(404L);
         });
-        Assertions.assertEquals(exception.getMessage(), "Could not Found Restaurant Id404");
+        assertEquals(exception.getMessage(), "Could not Found Restaurant Id 404");
     }
 
     @Test
@@ -92,7 +91,7 @@ class RestaurantServiceTest {
         List<Restaurant> restaurants = restaurantService.getRestaurants();
 
         Restaurant restaurant = restaurants.get(0);
-        Assertions.assertEquals(restaurant.getId(), 1004L);
+        assertEquals(restaurant.getId(), 1004L);
     }
 
     @Test
@@ -110,7 +109,7 @@ class RestaurantServiceTest {
 
         Restaurant createRestaurant = restaurantService.addRestaurant(restaurant);
 
-        Assertions.assertEquals(createRestaurant.getId(), 1234L);
+        assertEquals(createRestaurant.getId(), 1234L);
     }
 
     @Test
@@ -126,8 +125,8 @@ class RestaurantServiceTest {
 
         restaurantService.updateRestaurant(1234L, "Sool zip", "Busan");
 
-        Assertions.assertEquals(restaurant.getName(), "Sool zip");
-        Assertions.assertEquals(restaurant.getAddress(), "Busan");
+        assertEquals(restaurant.getName(), "Sool zip");
+        assertEquals(restaurant.getAddress(), "Busan");
     }
 
 }

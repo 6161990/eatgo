@@ -51,7 +51,7 @@ class RestaurantControllerTest {
                 .name("JOKER House")
                 .address("Seoul")
                 .build());
-    //실제 서비스와 상관없이 테스트
+        //실제 서비스와 상관없이 테스트
 
         given(restaurantService.getRestaurants()).willReturn(restaurants); // @MockBean LOOK !!
 

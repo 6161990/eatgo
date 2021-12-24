@@ -1,12 +1,10 @@
 package kr.co.yeoeulsim.eatgo.interfaces;
 
 import kr.co.yeoeulsim.eatgo.application.RestaurantService;
-import kr.co.yeoeulsim.eatgo.domain.*;
+import kr.co.yeoeulsim.eatgo.domain.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -37,7 +35,6 @@ public class RestaurantController {
 
     @PostMapping("/restaurants")
     public ResponseEntity<?> create(@Valid @RequestBody Restaurant resource) throws URISyntaxException {
-
         Restaurant restaurant = restaurantService.addRestaurant(
                 Restaurant.builder()
                 .name(resource.getName())
@@ -51,9 +48,7 @@ public class RestaurantController {
     @PatchMapping("/restaurants/{id}")
     public String update(@PathVariable("id") Long id,
                          @Valid @RequestBody Restaurant resource){
-        String name = resource.getName();
-        String address = resource.getAddress();
-        restaurantService.updateRestaurant(id, name, address);
+        restaurantService.updateRestaurant(id, resource.getName(), resource.getAddress());
         return "{}";
     }
 

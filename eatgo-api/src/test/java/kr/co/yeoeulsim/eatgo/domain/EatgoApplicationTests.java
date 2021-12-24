@@ -1,10 +1,9 @@
 package kr.co.yeoeulsim.eatgo.domain;
 
-import kr.co.yeoeulsim.eatgo.domain.Restaurant;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest
@@ -19,9 +18,9 @@ class EatgoApplicationTests {
                 .address("Seoul")
                 .build();
 
-        Assertions.assertEquals(restaurant.getId(), 1004L);
-        Assertions.assertEquals(restaurant.getName(), "Bob zip");
-        Assertions.assertEquals(restaurant.getAddress(), "Seoul");
+        assertEquals(restaurant.getId(), 1004L);
+        assertEquals(restaurant.getName(), "Bob zip");
+        assertEquals(restaurant.getAddress(), "Seoul");
     }
 
     @Test
@@ -32,7 +31,11 @@ class EatgoApplicationTests {
                 .address("Seoul")
                 .build();
 
-        Assertions.assertEquals(restaurant.getInformation(), "Bob zip in Seoul");
+        assertEquals(restaurant.getInformation(), "Bob zip in Seoul");
     }
 
 }
+
+/**
+ * application, domain, interfaces 각각의 역할에 따라 test 해야 할 내용이 다르다.
+ * 각 클래스에 있는 메소드 뿐만 아니라 메소드와 메소드 사이의 유기적인 기능과 역할을 검증할 수 있어야한다.*/

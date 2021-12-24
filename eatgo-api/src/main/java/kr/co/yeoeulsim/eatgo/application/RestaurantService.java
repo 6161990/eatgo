@@ -2,7 +2,6 @@ package kr.co.yeoeulsim.eatgo.application;
 
 import kr.co.yeoeulsim.eatgo.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +36,7 @@ public class RestaurantService {
         return restaurants;
     }
 
-    public Restaurant addRestaurant(Restaurant restaurant) {
+    public Restaurant addRestaurant(Restaurant restaurant) { // TODO : validator 추가
         return restaurantRepository.save(restaurant);
     }
 
