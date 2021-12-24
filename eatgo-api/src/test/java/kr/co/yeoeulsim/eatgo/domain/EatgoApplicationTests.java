@@ -1,17 +1,14 @@
 package kr.co.yeoeulsim.eatgo.domain;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-@SpringBootTest
 class EatgoApplicationTests {
 
 
     @Test
-    void creation() {
+    public void creation() {
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
                 .name("Bob zip")
