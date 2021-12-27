@@ -1,5 +1,6 @@
 package kr.co.yeoeulsim.eatgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Restaurant {
     private String address;
 
     @Transient
+    @JsonInclude(JsonInclude.Include.NON_NULL) /** Json이 null이 아닐 때만 보여주도록, null이면 레스토랑 리스트에서 컬럼 자체 안보이도록*/
     private List<MenuItem> menuItems;
 
     public String getInformation() {
