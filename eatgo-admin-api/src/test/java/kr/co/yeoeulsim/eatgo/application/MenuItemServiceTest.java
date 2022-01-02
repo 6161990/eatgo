@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class MenuItemServiceTest {
+class MenuItemServiceTest {
 
     private MenuItemService menuItemService;
 
