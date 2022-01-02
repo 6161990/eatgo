@@ -1,34 +1,16 @@
-package kr.co.yeoeulsim.eatgo.domain;
+package kr.co.yeoeulsim.eatgo;
 
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-class EatgoApplicationTests {
-
-
-    @Test
-    public void creation() {
-        Restaurant restaurant = Restaurant.builder()
-                .id(1004L)
-                .name("Bob zip")
-                .address("Seoul")
-                .build();
-
-        assertEquals(restaurant.getId(), 1004L);
-        assertEquals(restaurant.getName(), "Bob zip");
-        assertEquals(restaurant.getAddress(), "Seoul");
-    }
+@RunWith(SpringRunner.class)
+@SpringBootTest
+class EatgoAdminApiApplicationTests {
 
     @Test
-    public void information() {
-        Restaurant restaurant = Restaurant.builder()
-                .id(1004L)
-                .name("Bob zip")
-                .address("Seoul")
-                .build();
-
-        assertEquals(restaurant.getInformation(), "Bob zip in Seoul");
+    public void contextLoads() {
     }
 
 }

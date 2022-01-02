@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-class RestaurantServiceTest {
+public class RestaurantServiceTest {
 // 스프링이 아니라 일반적인 테스트 이므로 @Autowired를 사용할 수 없음.
 // (setUp) 직접 연결할 수 있도록 BeforeEach => MockitoAnnotations
     private RestaurantService restaurantService;
