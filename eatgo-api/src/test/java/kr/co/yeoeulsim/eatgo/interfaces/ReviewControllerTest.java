@@ -1,6 +1,7 @@
 package kr.co.yeoeulsim.eatgo.interfaces;
 
 import kr.co.yeoeulsim.eatgo.application.ReviewService;
+import kr.co.yeoeulsim.eatgo.domain.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -10,8 +11,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ReviewController.class)
@@ -24,12 +28,32 @@ class ReviewControllerTest {
     private ReviewService reviewService;
 
     @Test
-    public void create() throws  Exception {
+    public void createWithValidAttributes() throws  Exception {
+        given(reviewService.addReview(any())).willReturn(
+                Review.builder()
+                        .id(124L)
+                        .name("JOKER")
+                        .score(3)
+                        .description("Mat-it-da")
+                        .build()
+        );
+
         mvc.perform(post("/restaurants/1/reviews")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"JOKER\", \"score\":3, \"description\":\"Mat-it-da\"}"))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                        .andExpect(header().string("location", "/restaurants/1/reviews/124"));
 
         verify(reviewService).addReview(any());
+    }
+
+    @Test
+    public void createWithInvalidAttributes() throws  Exception {
+        mvc.perform(post("/restaurants/1/reviews")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isBadRequest());
+
+        verify(reviewService, never()).addReview(any()); //BadRequest 이므로 never()가 되어야함.
     }
 }
