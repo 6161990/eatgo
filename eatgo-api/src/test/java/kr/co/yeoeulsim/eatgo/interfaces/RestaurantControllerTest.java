@@ -4,6 +4,7 @@ import kr.co.yeoeulsim.eatgo.application.RestaurantService;
 import kr.co.yeoeulsim.eatgo.domain.MenuItem;
 import kr.co.yeoeulsim.eatgo.domain.Restaurant;
 import kr.co.yeoeulsim.eatgo.domain.RestaurantNotFoundException;
+import kr.co.yeoeulsim.eatgo.domain.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -68,7 +69,7 @@ class RestaurantControllerTest {
 
     @Test
     public void detailWithExisted() throws Exception {
-        Restaurant restaurant1 = Restaurant.builder()
+        Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
                 .name("JOKER House")
                 .address("Seoul")
@@ -77,15 +78,14 @@ class RestaurantControllerTest {
         MenuItem menuItem = MenuItem.builder()
                 .name("KimChi")
                 .build();
-        restaurant1.setMenuItem(Arrays.asList(menuItem));
-        given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
-
-        Restaurant restaurant2 = Restaurant.builder()
-                .id(2020L)
-                .name("Cyber Food")
-                .address("Seoul")
+        restaurant.setMenuItems(Arrays.asList(menuItem));
+        given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
+        Review review = Review.builder()
+                .name("JOKER")
+                .score(5)
+                .description("Great!")
                 .build();
-        given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
+        restaurant.setReviews(Arrays.asList(review));
 
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
@@ -97,14 +97,9 @@ class RestaurantControllerTest {
                 ))
                 .andExpect(content().string(
                         containsString("KimChi")
-                ));
-
-        mvc.perform(get("/restaurants/2020"))
-                .andExpect(content().string(
-                        containsString("\"id\":2020")
                 ))
                 .andExpect(content().string(
-                        containsString("\"name\":\"Cyber Food\"")
+                        containsString("Great!")
                 ));
 
     }

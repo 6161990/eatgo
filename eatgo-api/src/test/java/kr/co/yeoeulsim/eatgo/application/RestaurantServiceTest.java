@@ -13,7 +13,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 class RestaurantServiceTest {
 // 스프링이 아니라 일반적인 테스트 이므로 @Autowired를 사용할 수 없음.
@@ -26,6 +28,9 @@ class RestaurantServiceTest {
     @Mock
     private MenuItemRepository menuItemRepository;
 
+    @Mock
+    private ReviewRepository reviewRepository;
+
     @BeforeEach
     public void setUp(){
         /*  얘네를 지우는 대신 openMocks 해주어야한다. 객체를 할당해준다.
@@ -36,8 +41,9 @@ class RestaurantServiceTest {
 
         mockRestaurantRepository();
         mockMenuItemRepository();
+        mockReviewRepository();
 
-        restaurantService = new RestaurantService(restaurantRepository, menuItemRepository);
+        restaurantService = new RestaurantService(restaurantRepository, menuItemRepository, reviewRepository);
     }
 
     private void mockMenuItemRepository() {
@@ -63,6 +69,19 @@ class RestaurantServiceTest {
 
         given(restaurantRepository.findAll()).willReturn(restaurants);
         given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
+
+    }
+
+    private void mockReviewRepository() {
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(Review.builder()
+                .name("BeRyong")
+                .score(2)
+                .description("Bad")
+                .build());
+
+        given(reviewRepository.findAllByRestaurantId(1004L))
+                .willReturn(reviews);
     }
 
 
@@ -70,11 +89,17 @@ class RestaurantServiceTest {
     public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
+        verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
+        verify(reviewRepository).findAllByRestaurantId(eq(1004L));
+
         assertEquals(restaurant.getId(), 1004L);
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
 
         assertEquals(menuItem.getName(), "KimChi");
+
+        Review review = restaurant.getReviews().get(0);
+        assertEquals(review.getDescription(), "Bad");
 
     }
 
