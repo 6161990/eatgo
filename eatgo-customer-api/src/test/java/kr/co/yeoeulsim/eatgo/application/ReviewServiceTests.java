@@ -1,6 +1,5 @@
 package kr.co.yeoeulsim.eatgo.application;
 
-import kr.co.yeoeulsim.eatgo.application.ReviewService;
 import kr.co.yeoeulsim.eatgo.domain.Review;
 import kr.co.yeoeulsim.eatgo.domain.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;

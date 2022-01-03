@@ -1,6 +1,5 @@
 package kr.co.yeoeulsim.eatgo.application;
 
-import kr.co.yeoeulsim.eatgo.application.RestaurantService;
 import kr.co.yeoeulsim.eatgo.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

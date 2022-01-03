@@ -2,7 +2,6 @@ package kr.co.yeoeulsim.eatgo.interfaces;
 
 import kr.co.yeoeulsim.eatgo.application.ReviewService;
 import kr.co.yeoeulsim.eatgo.domain.Review;
-import kr.co.yeoeulsim.eatgo.interfaces.ReviewController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
