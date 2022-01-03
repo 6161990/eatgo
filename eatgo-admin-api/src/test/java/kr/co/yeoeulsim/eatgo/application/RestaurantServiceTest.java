@@ -1,6 +1,8 @@
 package kr.co.yeoeulsim.eatgo.application;
 
-import kr.co.yeoeulsim.eatgo.domain.*;
+import kr.co.yeoeulsim.eatgo.domain.Restaurant;
+import kr.co.yeoeulsim.eatgo.domain.RestaurantNotFoundException;
+import kr.co.yeoeulsim.eatgo.domain.RestaurantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,9 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 class RestaurantServiceTest {
 // 스프링이 아니라 일반적인 테스트 이므로 @Autowired를 사용할 수 없음.
@@ -24,12 +24,6 @@ class RestaurantServiceTest {
 
     @Mock
     private RestaurantRepository restaurantRepository;
-
-    @Mock
-    private MenuItemRepository menuItemRepository;
-
-    @Mock
-    private ReviewRepository reviewRepository;
 
     @BeforeEach
     public void setUp(){
@@ -40,21 +34,8 @@ class RestaurantServiceTest {
         MockitoAnnotations.openMocks(this);
 
         mockRestaurantRepository();
-        mockMenuItemRepository();
-        mockReviewRepository();
 
-        restaurantService = new RestaurantService(restaurantRepository, menuItemRepository, reviewRepository);
-    }
-
-    private void mockMenuItemRepository() {
-        List<MenuItem> menuItems = new ArrayList<>();
-        MenuItem menuItem = MenuItem.builder()
-                .name("KimChi")
-                .build();
-        menuItems.add(menuItem);
-
-
-        given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
+        restaurantService = new RestaurantService(restaurantRepository);
     }
 
     private void mockRestaurantRepository() {
@@ -72,35 +53,12 @@ class RestaurantServiceTest {
 
     }
 
-    private void mockReviewRepository() {
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(Review.builder()
-                .name("BeRyong")
-                .score(2)
-                .description("Bad")
-                .build());
-
-        given(reviewRepository.findAllByRestaurantId(1004L))
-                .willReturn(reviews);
-    }
-
 
     @Test
     public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
-        verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
-        verify(reviewRepository).findAllByRestaurantId(eq(1004L));
-
         assertEquals(restaurant.getId(), 1004L);
-
-        MenuItem menuItem = restaurant.getMenuItems().get(0);
-
-        assertEquals(menuItem.getName(), "KimChi");
-
-        Review review = restaurant.getReviews().get(0);
-        assertEquals(review.getDescription(), "Bad");
-
     }
 
     @Test

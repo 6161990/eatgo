@@ -2,7 +2,6 @@ package kr.co.yeoeulsim.eatgo.application;
 
 import kr.co.yeoeulsim.eatgo.domain.MenuItem;
 import kr.co.yeoeulsim.eatgo.domain.MenuItemRepository;
-import kr.co.yeoeulsim.eatgo.domain.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,10 @@ public class MenuItemService {
 
     public MenuItemService(MenuItemRepository menuItemRepository) {
         this.menuItemRepository = menuItemRepository;
+    }
+
+    public List<MenuItem> getMenuItems(Long restaurantId){
+        return menuItemRepository.findAllByRestaurantId(restaurantId);
     }
 
     public void bulkUpdate(Long restaurantId, List<MenuItem> menuItems) {
