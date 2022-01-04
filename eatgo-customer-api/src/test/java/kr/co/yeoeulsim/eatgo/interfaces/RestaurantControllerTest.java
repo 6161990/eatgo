@@ -102,13 +102,4 @@ class RestaurantControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("{}"));
     }
-
-
-    @Test
-    public void updateWithoutName() throws Exception {
-        mvc.perform(patch("/restaurants/1004")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"\", \"address\":\"Busan\"}"))
-                .andExpect(status().isBadRequest());
-    }
 }
