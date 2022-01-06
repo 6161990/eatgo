@@ -5,14 +5,12 @@ import kr.co.yeoeulsim.eatgo.domain.RegionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -42,12 +40,4 @@ class RegionServiceTest {
         assertEquals(region.getName(), "Seoul");
     }
 
-    @Test
-    public void addRegion() {
-        Region region = regionService.addRegion("Seoul");
-
-        verify(regionRepository).save(any());
-
-        assertEquals(region.getName(), "Seoul");
-    }
 }
