@@ -42,9 +42,9 @@ class RestaurantControllerTest {
                 .build());
         //실제 서비스와 상관없이 테스트
 
-        given(restaurantService.getRestaurants()).willReturn(restaurants); // @MockBean LOOK !!
+        given(restaurantService.getRestaurants("Seoul")).willReturn(restaurants); // @MockBean LOOK !!
 
-        mvc.perform(get("/restaurants"))
+        mvc.perform(get("/restaurants?region=Seoul"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("\"id\":1004")

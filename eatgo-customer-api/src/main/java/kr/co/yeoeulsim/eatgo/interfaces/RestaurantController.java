@@ -5,6 +5,7 @@ import kr.co.yeoeulsim.eatgo.domain.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,8 +18,10 @@ public class RestaurantController {
 
 
     @GetMapping("/restaurants") /** 모든 레스토랑 가져오기 */
-    public List<Restaurant> list(){
-        List<Restaurant> restaurants = restaurantService.getRestaurants();
+    public List<Restaurant> list(
+            @RequestParam("region") String region
+    ){
+        List<Restaurant> restaurants = restaurantService.getRestaurants(region);
 
         return restaurants;
     }
