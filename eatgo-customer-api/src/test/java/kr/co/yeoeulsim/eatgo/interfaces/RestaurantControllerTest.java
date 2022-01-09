@@ -37,14 +37,15 @@ class RestaurantControllerTest {
         List<Restaurant> restaurants = new ArrayList<>();
         restaurants.add(Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("JOKER House")
                 .address("Seoul")
                 .build());
         //실제 서비스와 상관없이 테스트
 
-        given(restaurantService.getRestaurants("Seoul")).willReturn(restaurants); // @MockBean LOOK !!
+        given(restaurantService.getRestaurants("Seoul", 1L)).willReturn(restaurants); // @MockBean LOOK !!
 
-        mvc.perform(get("/restaurants?region=Seoul"))
+        mvc.perform(get("/restaurants?region=Seoul&category=1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("\"id\":1004")
