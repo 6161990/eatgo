@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -42,6 +43,23 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("테스터")));
     }
+    @Test
+    public void create() throws Exception {
+        String email = "admin@example.com";
+        String name = "Administrator";
+
+        User user = User.builder().email(email).name(name).build();
+
+        given(userService.addUser(email, name)).willReturn(user);
+
+        mvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"admin@example.com\",\"name\":\"Administrator\"}"))
+                .andExpect(status().isCreated());
+
+        verify(userService).addUser(email,name);
+    }
+
 
 
 }
