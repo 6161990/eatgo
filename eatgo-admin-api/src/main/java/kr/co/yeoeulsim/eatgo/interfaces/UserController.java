@@ -5,10 +5,7 @@ import kr.co.yeoeulsim.eatgo.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -38,5 +35,18 @@ public class UserController {
         User user = userService.addUser(email, name);
 
         return ResponseEntity.created(new URI("/users"+ user.getId())).body("{}");
+    }
+
+    @PatchMapping("/users/{id}")
+    public String update(
+            @PathVariable("id") Long id,
+            @RequestBody User resource
+    ) {
+        String name = resource.getName();
+        String email = resource.getEmail();
+        Long level = resource.getLevel();
+
+        userService.updateUser(id, email, name, level);
+        return "{}";
     }
 }

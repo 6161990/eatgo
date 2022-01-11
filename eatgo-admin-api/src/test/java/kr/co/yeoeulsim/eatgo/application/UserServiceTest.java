@@ -9,10 +9,13 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 class UserServiceTest {
 
@@ -55,5 +58,23 @@ class UserServiceTest {
 
         assertEquals(user.getName(), name);
 
+    }
+
+    @Test
+    public void updateUser() {
+        Long id = 1004L;
+        String email = "admin@example.com";
+        String name = "Superman";
+        Long level = 100L;
+
+        User mockUser = User.builder().id(id).name("Administrator").level(1L).email(email).build();
+        given(userRepository.findById(id)).willReturn(Optional.of(mockUser));
+
+        User user = userService.updateUser(id, email, name, level);
+
+        verify(userRepository).findById(eq(id));
+
+        assertEquals(user.getName(), name);
+        assertEquals(user.isAdmin(), true);
     }
 }
