@@ -33,7 +33,7 @@ class UserControllerTest {
     public void list() throws Exception {
         List<User> userList = new ArrayList<>();
         userList.add(User.builder().email("tester@example.com")
-                .name("테스터")
+                .name("Tester")
                 .level(1L)
                 .build());
 
@@ -41,7 +41,7 @@ class UserControllerTest {
 
         mvc.perform(get("/users"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("테스터")));
+                .andExpect(content().string(containsString("Tester")));
     }
     @Test
     public void create() throws Exception {
@@ -76,6 +76,14 @@ class UserControllerTest {
 
         verify(userService).updateUser(eq(id), eq(email), eq(name), eq(level));
 
+    }
+
+    @Test
+    public void deactivate() throws Exception {
+        mvc.perform(delete("/users/1004"))
+                .andExpect(status().isOk());
+
+        verify(userService).deactiveUser(1004L);
     }
 
 }

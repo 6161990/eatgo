@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class UserService {
     }
 
     public User addUser(String email, String name) {
-        User user = User.builder().email(email).name(name).build();
+        User user = User.builder().email(email).name(name).level(1L).build();
         return userRepository.save(user);
     }
 
@@ -36,6 +35,13 @@ public class UserService {
         user.setLevel(level);
         user.setName(name);
 
+        return user;
+    }
+
+    public User deactiveUser(Long id) {
+        //TODO : restaurantService의 예외 처리 참고
+        User user = userRepository.findById(id).orElse(null);
+        user.deactivate();
         return user;
     }
 }
