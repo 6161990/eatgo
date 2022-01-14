@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +17,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+@DataJpaTest
 class RegionServiceTest {
 
     private RegionService regionService;
 
-    @Mock
+    @Autowired
     private RegionRepository regionRepository;
 
     @BeforeEach
@@ -44,7 +47,7 @@ class RegionServiceTest {
     public void addRegion() {
         Region region = regionService.addRegion("Seoul");
 
-        verify(regionRepository).save(any());
+       // verify(regionRepository).save(any());
 
         assertEquals(region.getName(), "Seoul");
     }

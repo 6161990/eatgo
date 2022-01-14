@@ -26,8 +26,6 @@ public class RegionService {
 
     public Region addRegion(String regionName) {
         Region region = Region.builder().name(regionName).build();
-        regionRepository.save(region);
-
-        return region;
+        return regionRepository.save(region);
     }
 }
