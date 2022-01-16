@@ -17,12 +17,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@DataJpaTest
+//@DataJpaTest
 class RegionServiceTest {
 
     private RegionService regionService;
 
-    @Autowired
+    @Mock
     private RegionRepository regionRepository;
 
     @BeforeEach
