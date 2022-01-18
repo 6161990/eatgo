@@ -8,6 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -27,6 +29,8 @@ class SessionControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location","/session"))
                 .andExpect(content().string("{\"accessToken\":\"ACCESSTOKEN\"}"));
+
+        verify(userService).authenticate(eq("tester@example.com"), eq("test"));
     }
 
 
