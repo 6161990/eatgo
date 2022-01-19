@@ -29,7 +29,7 @@ public class User {
 
     private String password;
 
-    @Setter
+  //  @Setter
     @NotNull
     private Long level;
 

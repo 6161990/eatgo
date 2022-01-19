@@ -3,6 +3,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
+
 public class UserTests {
 
     @Test
@@ -10,7 +12,6 @@ public class UserTests {
         User user = User.builder()
                 .email("tester@example.com")
                 .name("테스터")
-                .level(100L)
                 .build();
 
         assertThat(user.getName()).isEqualTo("테스터");
@@ -20,5 +21,19 @@ public class UserTests {
         user.deactivate();
 
         assertThat(user.isActive()).isFalse();
+    }
+
+    @Test
+    public void modifyUserLevel() throws NoSuchFieldException, IllegalAccessException {
+        User user = User.builder()
+                .email("tester@example.com")
+                .name("테스터")
+                .build();
+
+        Field level = User.class.getDeclaredField("level");
+        level.setAccessible(true);
+        level.set(user, 100L);
+
+        assertThat(user.getLevel()).isEqualTo(100L);
     }
 }
