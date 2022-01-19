@@ -27,13 +27,16 @@ public class UserTests {
     public void modifyUserLevel() throws NoSuchFieldException, IllegalAccessException {
         User user = User.builder()
                 .email("tester@example.com")
+                .level(100L)
                 .name("테스터")
                 .build();
 
         Field level = User.class.getDeclaredField("level");
         level.setAccessible(true);
-        level.set(user, 100L);
+        //level.set(user, 199L);
+        Long value = (Long) level.get(user);
 
         assertThat(user.getLevel()).isEqualTo(100L);
+        assertThat(user.getLevel()).isEqualTo(value);
     }
 }
