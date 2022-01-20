@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,7 +30,7 @@ public class User {
 
     private String password;
 
-  //  @Setter
+    @Setter
     @NotNull
     private Long level;
 
@@ -44,4 +45,5 @@ public class User {
     public void deactivate() {
         level = 0L;
     }
+
 }
