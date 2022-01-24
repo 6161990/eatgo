@@ -40,6 +40,7 @@ public class UserService {
     }
 
     public User authenticate(String email, String password) {
-        return null;
+        User user = userRepository.findByEmail(email).orElse(null);
+        return user;
     }
 }
