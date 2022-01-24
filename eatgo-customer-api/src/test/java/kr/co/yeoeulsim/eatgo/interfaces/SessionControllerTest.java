@@ -1,5 +1,6 @@
 package kr.co.yeoeulsim.eatgo.interfaces;
 
+import kr.co.yeoeulsim.eatgo.application.PasswordWrongException;
 import kr.co.yeoeulsim.eatgo.application.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -22,7 +24,7 @@ class SessionControllerTest {
     @MockBean
     private UserService userService;
     @Test
-    public void create() throws Exception {
+    public void createWithValidAttribute() throws Exception {
         mvc.perform(post("/session")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"tester@example.com\",\"password\":\"test\"}"))
@@ -31,6 +33,19 @@ class SessionControllerTest {
                 .andExpect(content().string("{\"accessToken\":\"ACCESSTOKEN\"}"));
 
         verify(userService).authenticate(eq("tester@example.com"), eq("test"));
+    }
+
+    @Test
+    public void createWithInvalidAttributes() throws Exception {
+        given(userService.authenticate("tester@example.com", "x"))
+                .willThrow(PasswordWrongException.class);
+
+        mvc.perform(post("/session")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"tester@example.com\",\"password\":\"x\"}"))
+                .andExpect(status().isBadRequest());
+
+        verify(userService).authenticate(eq("tester@example.com"), eq("x"));
     }
 
 

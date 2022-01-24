@@ -1,11 +1,11 @@
-package kr.co.yeoeulsim.eatgo.application;
+package kr.co.yeoeulsim.eatgo.interfaces;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class SessionDto {
+public class SessionResponseDto {
 
     private String accessToken;
 }
