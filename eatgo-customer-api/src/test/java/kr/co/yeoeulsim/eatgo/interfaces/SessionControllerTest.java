@@ -1,5 +1,6 @@
 package kr.co.yeoeulsim.eatgo.interfaces;
 
+import kr.co.yeoeulsim.eatgo.application.EmailNotExistedException;
 import kr.co.yeoeulsim.eatgo.application.PasswordWrongException;
 import kr.co.yeoeulsim.eatgo.application.UserService;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,20 @@ class SessionControllerTest {
     }
 
     @Test
-    public void createWithInvalidAttributes() throws Exception {
+    public void createWithNotExistEmail() throws Exception {
+        given(userService.authenticate("x@example.com", "test"))
+                .willThrow(EmailNotExistedException.class);
+
+        mvc.perform(post("/session")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"x@example.com\",\"password\":\"test\"}"))
+                .andExpect(status().isBadRequest());
+
+        verify(userService).authenticate(eq("x@example.com"), eq("test"));
+    }
+
+    @Test
+    public void createWithWrongPassword() throws Exception {
         given(userService.authenticate("tester@example.com", "x"))
                 .willThrow(PasswordWrongException.class);
 
@@ -47,6 +61,5 @@ class SessionControllerTest {
 
         verify(userService).authenticate(eq("tester@example.com"), eq("x"));
     }
-
 
 }
