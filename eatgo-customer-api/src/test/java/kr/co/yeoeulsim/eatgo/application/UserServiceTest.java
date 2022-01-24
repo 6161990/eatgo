@@ -1,6 +1,5 @@
 package kr.co.yeoeulsim.eatgo.application;
 
-import kr.co.yeoeulsim.eatgo.domain.RestaurantNotFoundException;
 import kr.co.yeoeulsim.eatgo.domain.User;
 import kr.co.yeoeulsim.eatgo.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,5 +67,18 @@ class UserServiceTest {
         User user = userService.authenticate(email, password);
 
         assertEquals(user.getEmail(), email);
+    }
+
+    @Test
+    public void authenticateNotExistedEmail() {
+        String email = "x@example.com";
+        String password = "test";
+
+        given(userRepository.findByEmail(email)).willReturn(Optional.empty());
+
+        EmailNotExistedException exception = assertThrows(EmailNotExistedException.class, () ->
+                userService.authenticate(email, password));
+
+        assertEquals("Email is Not registered: " + email , exception.getMessage());
     }
 }
