@@ -4,6 +4,7 @@ import kr.co.yeoeulsim.eatgo.application.EmailNotExistedException;
 import kr.co.yeoeulsim.eatgo.application.PasswordWrongException;
 import kr.co.yeoeulsim.eatgo.application.UserService;
 import kr.co.yeoeulsim.eatgo.domain.User;
+import kr.co.yeoeulsim.eatgo.utils.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -25,12 +27,15 @@ class SessionControllerTest {
 
     @MockBean
     private UserService userService;
+
     @Test
     public void createWithValidAttribute() throws Exception {
         String email = "tester@example.com";
         String password = "test";
+        Long id = 1004L;
+        String name = "Tester";
 
-        User mockUser  = User.builder().password("ACCESSTOKEN").build();
+        User mockUser  = User.builder().id(id).name(name).build();
         given(userService.authenticate(email, password)).willReturn(mockUser);
 
         mvc.perform(post("/session")
@@ -38,7 +43,8 @@ class SessionControllerTest {
                 .content("{\"email\":\"tester@example.com\",\"password\":\"test\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location","/session"))
-                .andExpect(content().string("{\"accessToken\":\"ACCESSTOKE\"}"));
+                .andExpect(content().string(containsString("{\"accessToken\":\"")))
+                .andExpect(content().string(containsString(".")));
 
         verify(userService).authenticate(eq(email), eq(password));
     }

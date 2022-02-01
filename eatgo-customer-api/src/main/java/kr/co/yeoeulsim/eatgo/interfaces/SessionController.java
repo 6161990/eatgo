@@ -2,6 +2,7 @@ package kr.co.yeoeulsim.eatgo.interfaces;
 
 import kr.co.yeoeulsim.eatgo.application.UserService;
 import kr.co.yeoeulsim.eatgo.domain.User;
+import kr.co.yeoeulsim.eatgo.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,9 @@ import java.net.URISyntaxException;
 public class SessionController {
 
     @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
     private UserService userService;
 
     @PostMapping("/session")
@@ -25,7 +29,8 @@ public class SessionController {
         String email = resource.getEmail();
         String password = resource.getPassword();
         User user = userService.authenticate(email, password);
-        String accessToken = user.getAccessToken();
+        String accessToken = jwtUtil.createToken(user.getId(), user.getName());
+//        String accessToken = jwtUtil.createToken(1004L, "John");
 
         return ResponseEntity.created(new URI("/session")).body(
                 SessionResponseDto
