@@ -1,10 +1,27 @@
 package kr.co.yeoeulsim.eatgo.utils;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.security.Key;
+
 public class JwtUtil {
-    public String createToken(long l, String john) {
-        return "header.payload.signature";
+
+    private  Key key;
+    public JwtUtil(String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes()); // 256 / 8bit = 32, 32글자 이상이어야함
     }
+
+    public String createToken(Long userId, String userName) {
+
+        String token = Jwts.builder()
+                .claim("userId", userId)
+                .claim("userName", userName)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+        return token;
+    }
+
 }

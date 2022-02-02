@@ -1,6 +1,5 @@
 package kr.co.yeoeulsim.eatgo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -10,11 +9,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Entity
 public class User {
 
     @Id
