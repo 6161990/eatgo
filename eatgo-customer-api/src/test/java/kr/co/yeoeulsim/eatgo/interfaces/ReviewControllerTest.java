@@ -31,12 +31,9 @@ class ReviewControllerTest {
     public void createWithValidAttributes() throws  Exception {
         String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsInVzZXJOYW1lIjoiSm9obiJ9.0nwaeM3fpDPvRGc64pyIp-JYNnuigCN9t_5ApVhPClQ";
 
-        given(reviewService.addReview(eq(1L), any())).willReturn(
+        given(reviewService.addReview(1L, "John", 3, "Mat-it-da")).willReturn(
                 Review.builder()
                         .id(124L)
-                        .name("JOKER")
-                        .score(3)
-                        .description("Mat-it-da")
                         .build()
         );
 
@@ -47,7 +44,7 @@ class ReviewControllerTest {
                 .andExpect(status().isCreated())
                         .andExpect(header().string("location", "/restaurants/1/reviews/124"));
 
-        verify(reviewService).addReview(eq(1L), any());
+        verify(reviewService).addReview(eq(1L), eq("John"), eq(3), eq("Mat-it-da"));
     }
 
     @Test
@@ -57,6 +54,6 @@ class ReviewControllerTest {
                         .content("{}"))
                 .andExpect(status().isBadRequest());
 
-        verify(reviewService, never()).addReview(eq(1L), any()); //BadRequest 이므로 never()가 되어야함.
+        verify(reviewService, never()).addReview(any(),any(),any(),any()); //BadRequest 이므로 never()가 되어야함.
     }
 }
