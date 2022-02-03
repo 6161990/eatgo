@@ -14,7 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
-public class ReviewController {
+public class  ReviewController {
 
     @Autowired
     private ReviewService reviewService;
