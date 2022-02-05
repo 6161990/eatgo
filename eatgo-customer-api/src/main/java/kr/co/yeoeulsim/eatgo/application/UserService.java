@@ -3,7 +3,6 @@ package kr.co.yeoeulsim.eatgo.application;
 import kr.co.yeoeulsim.eatgo.domain.User;
 import kr.co.yeoeulsim.eatgo.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
