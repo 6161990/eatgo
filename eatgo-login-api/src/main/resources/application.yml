@@ -1,17 +1,22 @@
 spring:
+  profiles:
+    active: real
   datasource:
     url: jdbc:h2:~/data/eatgo
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+
 
 jwt:
     secret: 12345678901234567890123456789012
 
----
-
-spring:
-  profiles:
-    active: test
-  datasource:
-    url: jdbc:h2:mem:test
