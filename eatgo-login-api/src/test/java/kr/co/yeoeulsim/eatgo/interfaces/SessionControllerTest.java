@@ -38,14 +38,44 @@ class SessionControllerTest {
         Long id = 1004L;
         String name = "Tester";
 
-        User mockUser  = User.builder().id(id).name(name).build();
+        User mockUser  = User.builder().id(id).name(name).level(1L).build();
         given(userService.authenticate(email, password)).willReturn(mockUser);
-        given(jwtUtil.createToken(id,name))
+        given(jwtUtil.createToken(id,name, null))
                 .willReturn("header.payload.signature");
 
         mvc.perform(post("/session")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"tester@example.com\",\"password\":\"test\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("location","/session"))
+                .andExpect(content().string(containsString("{\"accessToken\":\"header.payload.signature\"}")))
+                .andExpect(content().string(containsString(".")));
+
+        verify(userService).authenticate(eq(email), eq(password));
+    }
+
+    @Test
+    public void createRestaurantOwner() throws Exception {
+        String email = "tester@example.com";
+        String password = "test";
+        Long id = 1004L;
+        String name = "Tester";
+
+        User mockUser  = User.builder()
+                .id(id)
+                .name(name)
+                .level(50L)
+                .restaurantId(369L)
+                .build();
+
+        given(userService.authenticate(email, password)).willReturn(mockUser);
+
+        given(jwtUtil.createToken(id,name, 369L ))
+                .willReturn("header.payload.signature");
+
+        mvc.perform(post("/session")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"tester@example.com\",\"password\":\"test\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location","/session"))
                 .andExpect(content().string(containsString("{\"accessToken\":\"header.payload.signature\"}")))
