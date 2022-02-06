@@ -1,6 +1,7 @@
 package kr.co.yeoeulsim.eatgo.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -14,11 +15,17 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(secret.getBytes()); // 256 / 8bit = 32, 32글자 이상이어야함
     }
 
-    public String createToken(Long userId, String userName) {
+    public String createToken(Long userId, String userName, Long restaurantId) {
 
-        String token = Jwts.builder()
+        JwtBuilder builder = Jwts.builder()
                 .claim("userId", userId)
-                .claim("userName", userName)
+                .claim("userName", userName);
+
+        if( restaurantId != null) {
+            builder = builder.claim("restaurantId", restaurantId);
+        }
+
+        String token = builder
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         return token;
