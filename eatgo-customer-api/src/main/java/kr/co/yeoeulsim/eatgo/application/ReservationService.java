@@ -1,5 +1,6 @@
 package kr.co.yeoeulsim.eatgo.application;
 
+import kr.co.yeoeulsim.eatgo.domain.Reservation;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -8,7 +9,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class ReservationService {
 
-    public void addReservation(Long restaurantId, Long userId, String name, String date, String time, Integer partySize){
-
+    public Reservation addReservation(Long restaurantId, Long userId, String name, String date, String time, Integer partySize){
+        return  null;
     }
 }
