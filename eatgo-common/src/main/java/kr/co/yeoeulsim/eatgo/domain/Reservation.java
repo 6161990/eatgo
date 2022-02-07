@@ -19,6 +19,8 @@ public class Reservation {
     @GeneratedValue
     private Long id;
 
+    private Long restaurantId;
+
     private Long userId;
 
     @Setter
