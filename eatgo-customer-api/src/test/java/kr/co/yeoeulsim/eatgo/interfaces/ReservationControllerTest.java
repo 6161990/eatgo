@@ -27,19 +27,22 @@ class ReservationControllerTest {
 
     @Test
     public void create() throws Exception {
-        Long userId = 1L;
-        String name = "Tester";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsInVzZXJOYW1lIjoiSm9obiJ9.0nwaeM3fpDPvRGc64pyIp-JYNnuigCN9t_5ApVhPClQ";
+
+        Long userId = 1004L;
+        String name = "John";
         String date = "2019-12-14";
         String time = "20:00";
         Integer partySize = 20;
 
-        mvc.perform(post("/restaurants/1004/reservations")
+        mvc.perform(post("/restaurants/369/reservations")
+                        .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userId\":1,\"name\":\"Tester\",\"date\":\"2019-12-14\",\"time\":\"20:00\",\"partySize\":20}"))
+                        .content("{\"date\":\"2019-12-14\",\"time\":\"20:00\",\"partySize\":20}"))
                 .andExpect(status().isCreated());
 
         verify(reservationService).addReservation(
-                eq(1004L), eq(userId), eq(name), eq(date), eq(time), eq(partySize));
+                eq(369L), eq(userId), eq(name), eq(date), eq(time), eq(partySize));
     }
 
 }
